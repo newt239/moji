@@ -3,7 +3,7 @@ import Tiptap from "components/Tiptap";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "New Remix SPA" },
+    { title: "Moji Counter" },
     { name: "description", content: "Welcome to Remix (SPA Mode)!" },
   ];
 };

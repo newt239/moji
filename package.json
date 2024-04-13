@@ -11,6 +11,7 @@
     "typecheck": "tsc"
   },
   "dependencies": {
+    "@kuma-ui/core": "^1.5.6",
     "@remix-run/node": "^2.8.1",
     "@remix-run/react": "^2.8.1",
     "@tiptap/pm": "^2.3.0",
