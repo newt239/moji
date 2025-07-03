@@ -1,23 +1,25 @@
 import CharacterCount from "@tiptap/extension-character-count";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { useState } from "react";
 
 function App() {
+  const [character, setCharacter] = useState("Hello World! 🌎️");
   const editor = useEditor({
     extensions: [StarterKit, CharacterCount],
-    content: "<p>Hello World! 🌎️</p>",
+    content: character,
+    onUpdate: ({ editor }) => {
+      setCharacter(editor.getText());
+    },
   });
-
-  const characterCount = editor?.storage.characterCount.characters();
-  const wordCount = editor?.storage.characterCount.words();
 
   return (
     <div style={{ padding: "2rem" }}>
       <h1>Moji - Character Counter</h1>
       <EditorContent editor={editor} />
       <div style={{ marginTop: "1rem" }}>
-        <p>Characters: {characterCount}</p>
-        <p>Words: {wordCount}</p>
+        <p>Characters: {character.length}</p>
+        <p>Words: {character.split(" ").length}</p>
       </div>
     </div>
   );
