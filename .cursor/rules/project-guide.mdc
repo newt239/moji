@@ -1,0 +1,52 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+
+# Project Overview
+
+**重要：このプロジェクトでは常に日本語で応答してください。**
+
+## プロジェクト概要
+
+Moji は、テキスト編集に Tiptap を使用したミニマルな文字カウンター React アプリケーションです。Cloudflare Workers にデプロイされています。
+
+## よく使用するコマンド
+
+### 開発
+
+- `pnpm install` - 依存関係をインストール
+- `pnpm run dev` - 開発サーバーを起動
+- `pnpm run build` - 本番用にビルド（TypeScript ビルド後に Vite ビルドを実行）
+- `pnpm run lint` - Biome リンターとフォーマッターを実行
+- `pnpm run preview` - Wrangler 開発サーバーでプレビュー
+- `pnpm run deploy` - ビルドして Cloudflare Workers にデプロイ
+
+### デプロイ
+
+- `wrangler login` - Cloudflare で認証（初回のみ）
+- `pnpm run deploy` - Cloudflare Workers にデプロイ
+
+## アーキテクチャ
+
+- **フロントエンド**: React 19 with TypeScript、Vite でビルド
+- **エディタ**: StarterKit と CharacterCount 拡張機能を使用した Tiptap リッチテキストエディタ
+- **ルーティング**: ブラウザルーターを使用した React Router DOM
+- **スタイリング**: インラインスタイル（CSS フレームワークなし）
+- **デプロイ**: Wrangler 経由で Cloudflare Workers
+- **コード品質**: リンティングとフォーマッティングに Biome
+
+## 主要なファイル
+
+- `src/App.tsx` - Tiptap エディタと文字カウント機能を持つメインコンポーネント
+- `src/main.tsx` - ルーター設定を含む React アプリのエントリーポイント
+- `wrangler.json` - Cloudflare Workers 設定
+- `biome.json` - Biome 設定（2 スペースインデント、ダブルクォート）
+
+## 開発に関する注意事項
+
+- `src/*`インポートに`@/*`パスエイリアスを使用
+- Biome は推奨ルールで 2 スペースインデントに設定
+- TypeScript は厳格モードとモダンな ES 機能で設定
+- アプリは`dist/`ディレクトリから Cloudflare Workers に静的アセットをデプロイ
