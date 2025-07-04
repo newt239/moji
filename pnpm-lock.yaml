@@ -17,6 +17,9 @@ importers:
       '@tiptap/starter-kit':
         specifier: ^2.23.0
         version: 2.23.0
+      dexie:
+        specifier: ^3
+        version: 3.2.7
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -1030,6 +1033,10 @@ packages:
   detect-libc@2.0.4:
     resolution: {integrity: sha512-3UDv+G9CsCKO1WKMGw9fwq/SWJYbI0c5Y7LU1AXYoDdbhE2AHQ6N6Nb34sG8Fj7T5APy8qXDCKuuIHd1BR0tVA==}
     engines: {node: '>=8'}
+
+  dexie@3.2.7:
+    resolution: {integrity: sha512-2a+BXvVhY5op+smDRLxeBAivE7YcYaneXJ1la3HOkUfX9zKkE/AJ8CNgjiXbtXepFyFmJNGSbmjOwqbT749r/w==}
+    engines: {node: '>=6.0'}
 
   electron-to-chromium@1.5.177:
     resolution: {integrity: sha512-7EH2G59nLsEMj97fpDuvVcYi6lwTcM1xuWw3PssD8xzboAW7zj7iB3COEEEATUfjLHrs5uKBLQT03V/8URx06g==}
@@ -2202,6 +2209,8 @@ snapshots:
   defu@6.1.4: {}
 
   detect-libc@2.0.4: {}
+
+  dexie@3.2.7: {}
 
   electron-to-chromium@1.5.177: {}
 
