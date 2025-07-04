@@ -1,6 +1,7 @@
 {
   "name": "moji",
   "compatibility_date": "2025-07-04",
+  "main": "src/worker.ts",
   "assets": {
     "directory": "./dist/"
   }
