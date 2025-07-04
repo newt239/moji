@@ -1,0 +1,75 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  font-family: 'Roboto', sans-serif; /* Modern font */
+  background-color: #f0f2f5; /* Light grey background */
+  min-height: 100vh;
+  box-sizing: border-box; /* Ensures padding doesn't add to width/height */
+}
+
+.header {
+  color: #2c3e50; /* Darker, more professional blue */
+  margin-bottom: 2.5rem; /* Increased spacing */
+  text-align: center;
+  font-size: 2.5rem; /* Larger font size */
+  font-weight: 500; /* Medium weight for a modern look */
+}
+
+.editorContainer {
+  background-color: #ffffff; /* Pure white */
+  border-radius: 12px; /* More rounded corners */
+  padding: 1.5rem; /* Increased padding */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Softer, more diffused shadow */
+  width: 100%;
+  max-width: 700px; /* Slightly narrower for better readability */
+  margin-bottom: 2rem; /* Increased spacing */
+}
+
+.editorContent :global(.ProseMirror) {
+  min-height: 200px; /* Increased min-height */
+  padding: 0.75rem; /* Increased padding */
+  border: 1px solid #dcdfe6; /* Lighter border color */
+  border-radius: 6px; /* Slightly more rounded corners for the editor itself */
+  outline: none;
+  font-size: 1rem; /* Standard text size */
+  line-height: 1.6; /* Improved line spacing for readability */
+  color: #34495e; /* Dark grey for text */
+}
+
+.editorContent :global(.ProseMirror p:first-child) {
+  margin-top: 0; /* Remove default top margin from first paragraph */
+}
+.editorContent :global(.ProseMirror p:last-child) {
+  margin-bottom: 0; /* Remove default bottom margin from last paragraph */
+}
+
+
+.editorContent :global(.ProseMirror:focus) {
+  border-color: #5e72e4; /* A modern, friendly blue */
+  box-shadow: 0 0 0 0.2rem rgba(94, 114, 228, 0.25); /* Matching focus shadow */
+}
+
+.stats {
+  display: flex;
+  justify-content: space-between; /* Space items out to edges */
+  align-items: center;
+  width: 100%;
+  max-width: 700px; /* Match editor width */
+  background-color: #ffffff;
+  border-radius: 12px; /* Match editor container */
+  padding: 1rem 1.5rem; /* Adjusted padding */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Slightly lighter shadow than editor */
+}
+
+.statItem {
+  color: #525f7f; /* A softer, more professional grey-blue */
+  font-size: 1rem;
+  font-weight: 500; /* Medium weight for clarity */
+}
+
+.statItem span { /* If you want to style a label and value differently */
+  font-weight: 400;
+  color: #8898aa;
+}
