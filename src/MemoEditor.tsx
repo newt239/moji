@@ -19,7 +19,11 @@ function useDebouncedEffect(fn: () => void, deps: unknown[], delay: number) {
   }, [...deps, delay]);
 }
 
-export default function MemoEditor({ memoId, initialContent = "", onCreate }: Props) {
+export default function MemoEditor({
+  memoId,
+  initialContent = "",
+  onCreate,
+}: Props) {
   const navigate = useNavigate();
   const [id, setId] = useState<string | undefined>(memoId);
   const [content, setContent] = useState(initialContent);
@@ -34,19 +38,23 @@ export default function MemoEditor({ memoId, initialContent = "", onCreate }: Pr
     },
   });
 
-  useDebouncedEffect(() => {
-    if (!editor || isComposing.current) return;
-    const now = Date.now();
-    if (!id) {
-      const newId = crypto.randomUUID();
-      setId(newId);
-      db.memos.put({ id: newId, content, createdAt: now, updatedAt: now });
-      onCreate?.(newId);
-      navigate(`/memo/${newId}`, { replace: true });
-    } else {
-      db.memos.put({ id, content, createdAt: now, updatedAt: now });
-    }
-  }, [content, id], 500);
+  useDebouncedEffect(
+    () => {
+      if (!editor || isComposing.current) return;
+      const now = Date.now();
+      if (!id) {
+        const newId = crypto.randomUUID();
+        setId(newId);
+        db.memos.put({ id: newId, content, createdAt: now, updatedAt: now });
+        onCreate?.(newId);
+        navigate(`/memo/${newId}`, { replace: true });
+      } else {
+        db.memos.put({ id, content, createdAt: now, updatedAt: now });
+      }
+    },
+    [content, id],
+    500,
+  );
 
   return (
     <div className={styles.container}>
@@ -65,8 +73,12 @@ export default function MemoEditor({ memoId, initialContent = "", onCreate }: Pr
         />
       </div>
       <div className={styles.stats}>
-        <p className={styles.statItem}>Characters: {editor?.storage.characterCount.characters()}</p>
-        <p className={styles.statItem}>Words: {editor?.storage.characterCount.words()}</p>
+        <p className={styles.statItem}>
+          Characters: {editor?.storage.characterCount.characters()}
+        </p>
+        <p className={styles.statItem}>
+          Words: {editor?.storage.characterCount.words()}
+        </p>
       </div>
     </div>
   );
