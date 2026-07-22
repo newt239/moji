@@ -3,8 +3,8 @@ import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { db } from "./db";
 import styles from "./App.module.css";
+import { db } from "./db";
 
 interface Props {
   memoId?: string;
@@ -13,8 +13,10 @@ interface Props {
 }
 
 function useDebouncedEffect(fn: () => void, deps: unknown[], delay: number) {
+  const fnRef = useRef(fn);
+  fnRef.current = fn;
   useEffect(() => {
-    const handle = setTimeout(fn, delay);
+    const handle = setTimeout(() => fnRef.current(), delay);
     return () => clearTimeout(handle);
   }, [...deps, delay]);
 }

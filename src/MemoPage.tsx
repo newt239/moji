@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import MemoEditor from "./MemoEditor";
 import { db } from "./db";
+import MemoEditor from "./MemoEditor";
 
 export default function MemoPage() {
   const { memoId } = useParams();
