@@ -1,0 +1,13 @@
+{
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "biomejs.biome",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.biome": "explicit",
+    "source.organizeImports": "never"
+  },
+  "files.insertFinalNewline": true,
+  "workbench.editor.customLabels.patterns": {
+    "**/index.{ts,tsx}": "${dirname}/index.${extname}"
+  }
+}

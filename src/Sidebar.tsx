@@ -1,9 +1,9 @@
+import { liveQuery } from "dexie";
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { liveQuery } from "dexie";
-import { db } from "./db";
-import type { Memo } from "./db";
 import styles from "./App.module.css";
+import type { Memo } from "./db";
+import { db } from "./db";
 
 function extractTitle(html: string): string {
   const div = document.createElement("div");
