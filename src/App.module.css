@@ -47,28 +47,62 @@
   box-shadow: 0 0 0 0.2rem rgba(94, 114, 228, 0.25); /* Matching focus shadow */
 }
 
-.stats {
+.workspace {
   display: flex;
-  justify-content: space-between; /* Space items out to edges */
-  align-items: center;
+  align-items: flex-start;
+  gap: 1.5rem;
   width: 100%;
-  max-width: 700px; /* Match editor width */
+  max-width: 1040px;
+}
+
+.editorColumn {
+  flex: 1;
+  min-width: 0;
+}
+
+.metricsPanel {
+  width: 280px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
   background-color: #ffffff;
-  border-radius: 12px; /* Match editor container */
-  padding: 1rem 1.5rem; /* Adjusted padding */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* Slightly lighter shadow than editor */
+  border-radius: 12px;
+  padding: 1.25rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
-.statItem {
-  color: #525f7f; /* A softer, more professional grey-blue */
-  font-size: 1rem;
-  font-weight: 500; /* Medium weight for clarity */
-}
-
-.statItem span {
-  /* If you want to style a label and value differently */
-  font-weight: 400;
+.metricsTitle {
+  margin: 0 0 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
   color: #8898aa;
+  text-transform: uppercase;
+}
+
+.metricsList {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.35rem 0.75rem;
+  margin: 0;
+  align-items: baseline;
+}
+
+.metricsLabel {
+  font-size: 0.8125rem;
+  color: #8898aa;
+}
+
+.metricsValue {
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #525f7f;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
 }
 
 .layout {
@@ -209,14 +243,19 @@
     font-size: 16px;
   }
 
-  .stats {
-    gap: 0.75rem;
-    flex-wrap: wrap;
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
+  .workspace {
+    flex-direction: column;
+    gap: 0;
   }
 
-  .statItem {
-    font-size: 0.875rem;
+  .editorColumn {
+    width: 100%;
+  }
+
+  .metricsPanel {
+    width: 100%;
+    position: static;
+    border-radius: 8px;
+    padding: 1rem;
   }
 }

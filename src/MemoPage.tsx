@@ -7,6 +7,7 @@ type LoadedMemo = {
   id: string;
   content: string;
   createdAt: number;
+  updatedAt: number;
 };
 
 export default function MemoPage() {
@@ -22,6 +23,7 @@ export default function MemoPage() {
         id: memoId,
         content: memo?.content ?? "",
         createdAt: memo?.createdAt ?? Date.now(),
+        updatedAt: memo?.updatedAt ?? Date.now(),
       });
     });
     return () => {
@@ -39,6 +41,7 @@ export default function MemoPage() {
       memoId={memoId}
       initialContent={loaded.content}
       initialCreatedAt={loaded.createdAt}
+      initialUpdatedAt={loaded.updatedAt}
     />
   );
 }

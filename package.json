@@ -15,7 +15,6 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@tiptap/extension-character-count": "2.23.0",
     "@tiptap/react": "2.23.0",
     "@tiptap/starter-kit": "2.23.0",
     "dexie": "3.2.7",
