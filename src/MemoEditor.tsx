@@ -2,15 +2,15 @@ import CharacterCount from "@tiptap/extension-character-count";
 import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { useEffect, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styles from "./App.module.css";
 import { db } from "./db";
+import { isEmptyContent } from "./memoContent";
 
-interface Props {
-  memoId?: string;
-  initialContent?: string;
-  onCreate?: (id: string) => void;
-}
+type Props = {
+  memoId: string;
+  initialContent: string;
+  initialCreatedAt: number;
+};
 
 function useDebouncedEffect(fn: () => void, deps: unknown[], delay: number) {
   const fnRef = useRef(fn);
@@ -23,40 +23,63 @@ function useDebouncedEffect(fn: () => void, deps: unknown[], delay: number) {
 
 export default function MemoEditor({
   memoId,
-  initialContent = "",
-  onCreate,
+  initialContent,
+  initialCreatedAt,
 }: Props) {
-  const navigate = useNavigate();
-  const [id, setId] = useState<string | undefined>(memoId);
   const [content, setContent] = useState(initialContent);
+  const [stats, setStats] = useState({ characters: 0, words: 0 });
   const isComposing = useRef(false);
+  const savedContent = useRef(initialContent);
+  const latestContent = useRef(initialContent);
+  latestContent.current = content;
 
   const editor = useEditor({
     extensions: [StarterKit, CharacterCount],
     content: initialContent,
+    autofocus: true,
+    onCreate: ({ editor }) => {
+      setStats({
+        characters: editor.storage.characterCount.characters({
+          node: editor.state.doc,
+        }),
+        words: editor.storage.characterCount.words({ node: editor.state.doc }),
+      });
+    },
     onUpdate: ({ editor }) => {
-      const html = editor.getHTML();
-      setContent(html);
+      setContent(editor.getHTML());
+      setStats({
+        characters: editor.storage.characterCount.characters({
+          node: editor.state.doc,
+        }),
+        words: editor.storage.characterCount.words({ node: editor.state.doc }),
+      });
     },
   });
 
   useDebouncedEffect(
     () => {
       if (!editor || isComposing.current) return;
-      const now = Date.now();
-      if (!id) {
-        const newId = crypto.randomUUID();
-        setId(newId);
-        db.memos.put({ id: newId, content, createdAt: now, updatedAt: now });
-        onCreate?.(newId);
-        navigate(`/memo/${newId}`, { replace: true });
-      } else {
-        db.memos.put({ id, content, createdAt: now, updatedAt: now });
-      }
+      if (content === savedContent.current) return;
+      savedContent.current = content;
+      db.memos.put({
+        id: memoId,
+        content,
+        createdAt: initialCreatedAt,
+        updatedAt: Date.now(),
+      });
     },
-    [content, id],
+    [content, memoId, initialCreatedAt],
     500,
   );
+
+  // 本文が空のままエディタを離れたメモをDBに残さないためアンマウント時に削除する
+  useEffect(() => {
+    return () => {
+      if (isEmptyContent(latestContent.current)) {
+        db.memos.delete(memoId);
+      }
+    };
+  }, [memoId]);
 
   return (
     <div className={styles.container}>
@@ -75,12 +98,8 @@ export default function MemoEditor({
         />
       </div>
       <div className={styles.stats}>
-        <p className={styles.statItem}>
-          Characters: {editor?.storage.characterCount.characters()}
-        </p>
-        <p className={styles.statItem}>
-          Words: {editor?.storage.characterCount.words()}
-        </p>
+        <p className={styles.statItem}>Characters: {stats.characters}</p>
+        <p className={styles.statItem}>Words: {stats.words}</p>
       </div>
     </div>
   );

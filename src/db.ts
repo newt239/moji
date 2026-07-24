@@ -1,12 +1,12 @@
 import type { Table } from "dexie";
 import Dexie from "dexie";
 
-export interface Memo {
+export type Memo = {
   id: string;
   content: string;
   updatedAt: number;
   createdAt: number;
-}
+};
 
 class MemoDB extends Dexie {
   memos!: Table<Memo, string>;

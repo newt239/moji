@@ -4,15 +4,14 @@ import { Link, useLocation } from "react-router-dom";
 import styles from "./App.module.css";
 import type { Memo } from "./db";
 import { db } from "./db";
+import { extractText, isEmptyContent } from "./memoContent";
 
-function extractTitle(html: string): string {
-  const div = document.createElement("div");
-  div.innerHTML = html;
-  const text = div.textContent || "";
-  return text.trim().slice(0, 20) || "(no content)";
-}
+type Props = {
+  isOpen: boolean;
+  onClose: () => void;
+};
 
-export default function Sidebar() {
+export default function Sidebar({ isOpen, onClose }: Props) {
   const location = useLocation();
   const [memos, setMemos] = useState<Memo[]>([]);
 
@@ -24,22 +23,29 @@ export default function Sidebar() {
   }, []);
 
   return (
-    <div className={styles.sidebar}>
+    <div
+      className={`${styles.sidebar} ${isOpen ? styles.sidebarOpen : ""}`.trim()}
+    >
       <div className={styles.memoList}>
-        {memos.map((m) => (
-          <Link
-            key={m.id}
-            to={`/memo/${m.id}`}
-            className={`${styles.memoCard} ${
-              location.pathname === `/memo/${m.id}` ? styles.memoCardActive : ""
-            }`}
-          >
-            <div>{extractTitle(m.content)}</div>
-            <small>{new Date(m.updatedAt).toLocaleString()}</small>
-          </Link>
-        ))}
+        {memos
+          .filter((m) => !isEmptyContent(m.content))
+          .map((m) => (
+            <Link
+              key={m.id}
+              to={`/memo/${m.id}`}
+              onClick={onClose}
+              className={`${styles.memoCard} ${
+                location.pathname === `/memo/${m.id}`
+                  ? styles.memoCardActive
+                  : ""
+              }`}
+            >
+              <div>{extractText(m.content).slice(0, 20)}</div>
+              <small>{new Date(m.updatedAt).toLocaleString()}</small>
+            </Link>
+          ))}
       </div>
-      <Link to="/new" className={styles.newButton}>
+      <Link to="/new" onClick={onClose} className={styles.newButton}>
         + New
       </Link>
     </div>

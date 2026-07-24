@@ -3,20 +3,42 @@ import { useParams } from "react-router-dom";
 import { db } from "./db";
 import MemoEditor from "./MemoEditor";
 
+type LoadedMemo = {
+  id: string;
+  content: string;
+  createdAt: number;
+};
+
 export default function MemoPage() {
   const { memoId } = useParams();
-  const [content, setContent] = useState<string | null>(null);
+  const [loaded, setLoaded] = useState<LoadedMemo | null>(null);
 
   useEffect(() => {
     if (!memoId) return;
-    db.memos.get(memoId).then((m) => {
-      setContent(m?.content ?? "");
+    let cancelled = false;
+    db.memos.get(memoId).then((memo) => {
+      if (cancelled) return;
+      setLoaded({
+        id: memoId,
+        content: memo?.content ?? "",
+        createdAt: memo?.createdAt ?? Date.now(),
+      });
     });
+    return () => {
+      cancelled = true;
+    };
   }, [memoId]);
 
-  if (content === null) {
+  if (!memoId || loaded?.id !== memoId) {
     return null;
   }
 
-  return <MemoEditor memoId={memoId} initialContent={content} />;
+  return (
+    <MemoEditor
+      key={memoId}
+      memoId={memoId}
+      initialContent={loaded.content}
+      initialCreatedAt={loaded.createdAt}
+    />
+  );
 }
